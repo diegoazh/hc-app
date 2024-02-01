@@ -1,0 +1,29 @@
+root: true
+env:
+  node: true
+  'vitest-globals/env': true
+plugins:
+  - '@typescript-eslint'
+  - vitest
+extends:
+  - 'plugin:react/recommended'
+  - 'eslint:recommended'
+  - 'plugin:@typescript-eslint/recommended'
+  - 'plugin:vitest/recommended'
+  - 'plugin:vitest-globals/recommended'
+  - 'plugin:prettier/recommended'
+parser: '@typescript-eslint/parser'
+parserOptions:
+  sourceType: module
+  ecmaVersion: 2020
+settings:
+  react:
+    version: detect
+globals:
+  document: true
+  React: true
+  JSX: true
+rules:
+  'no-console': 'warn'
+  'no-debugger': 'warn'
+  'react/prop-types': 'off'

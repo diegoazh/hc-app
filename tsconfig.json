@@ -14,8 +14,27 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "./src",
+    "paths": {
+      "@components": ["components/index.ts"],
+      "@components/*": ["components/*"],
+      "@hooks": ["hooks/index.ts"],
+      "@hooks/*": ["hooks/*"],
+      "@layouts": ["layouts/index.ts"],
+      "@layouts/*": ["layouts/*"],
+      "@pages": ["pages/index.ts"],
+      "@pages/*": ["pages/*"],
+      "@theme/*": ["theme/*"],
+      "@utils": ["utils/index.ts"],
+      "@utils/*": ["utils/*"],
+    },
+    "types": ["vitest/globals"],
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [
+    {
+      "path": "./tsconfig.node.json",
+    },
+  ],
 }

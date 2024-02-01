@@ -9,92 +9,112 @@ import {
   IonMenuToggle,
   IonNote,
 } from '@ionic/react';
-
+import { useStorage } from '@hooks';
+import {
+  listOutline,
+  listSharp,
+  logInOutline,
+  logInSharp,
+} from 'ionicons/icons';
+import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { archiveOutline, archiveSharp, bookmarkOutline, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
 import './Menu.css';
+import { useTranslation } from 'react-i18next';
+import { capitalize } from '@utils';
 
 interface AppPage {
-  url: string;
+  href?: string;
+  url?: string;
   iosIcon: string;
   mdIcon: string;
   title: string;
 }
 
-const appPages: AppPage[] = [
-  {
-    title: 'Inbox',
-    url: '/folder/Inbox',
-    iosIcon: mailOutline,
-    mdIcon: mailSharp
-  },
-  {
-    title: 'Outbox',
-    url: '/folder/Outbox',
-    iosIcon: paperPlaneOutline,
-    mdIcon: paperPlaneSharp
-  },
-  {
-    title: 'Favorites',
-    url: '/folder/Favorites',
-    iosIcon: heartOutline,
-    mdIcon: heartSharp
-  },
-  {
-    title: 'Archived',
-    url: '/folder/Archived',
-    iosIcon: archiveOutline,
-    mdIcon: archiveSharp
-  },
-  {
-    title: 'Trash',
-    url: '/folder/Trash',
-    iosIcon: trashOutline,
-    mdIcon: trashSharp
-  },
-  {
-    title: 'Spam',
-    url: '/folder/Spam',
-    iosIcon: warningOutline,
-    mdIcon: warningSharp
-  }
-];
-
-const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-
-const Menu: React.FC = () => {
+export const Menu: React.FC = () => {
+  const { t } = useTranslation();
   const location = useLocation();
+  const store = useStorage();
+  const [user, setUser] = useState<
+    { name: string; email: string } | undefined
+  >();
+
+  const appPages: AppPage[] = [
+    {
+      title: capitalize(t('menu.adoption')),
+      url: '/adoption',
+      iosIcon: listOutline,
+      mdIcon: listSharp,
+    },
+    {
+      title: capitalize(t('menu.login')),
+      href: 'https://app.starter.io/auth/login',
+      iosIcon: logInOutline,
+      mdIcon: logInSharp,
+    },
+  ];
+
+  const secureAppPages: AppPage[] = [];
+
+  store.get('logged').then((info) => {
+    setUser(info);
+  });
 
   return (
     <IonMenu contentId="main" type="overlay">
       <IonContent>
         <IonList id="inbox-list">
-          <IonListHeader>Inbox</IonListHeader>
-          <IonNote>hi@ionicframework.com</IonNote>
-          {appPages.map((appPage, index) => {
-            return (
-              <IonMenuToggle key={index} autoHide={false}>
-                <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
-                  <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
-                  <IonLabel>{appPage.title}</IonLabel>
-                </IonItem>
-              </IonMenuToggle>
-            );
-          })}
-        </IonList>
-
-        <IonList id="labels-list">
-          <IonListHeader>Labels</IonListHeader>
-          {labels.map((label, index) => (
-            <IonItem lines="none" key={index}>
-              <IonIcon aria-hidden="true" slot="start" icon={bookmarkOutline} />
-              <IonLabel>{label}</IonLabel>
-            </IonItem>
-          ))}
+          <IonListHeader>{user?.name || 'Anonymous'}</IonListHeader>
+          <IonNote>{user?.email || ''}</IonNote>
+          {user?.email
+            ? secureAppPages.map((appPage, index) => {
+                return (
+                  <IonMenuToggle key={index} autoHide={false}>
+                    <IonItem
+                      className={
+                        location.pathname === appPage.url ? 'selected' : ''
+                      }
+                      routerLink={appPage.url}
+                      routerDirection="none"
+                      lines="none"
+                      detail={false}
+                    >
+                      <IonIcon
+                        aria-hidden="true"
+                        slot="start"
+                        ios={appPage.iosIcon}
+                        md={appPage.mdIcon}
+                      />
+                      <IonLabel>{appPage.title}</IonLabel>
+                    </IonItem>
+                  </IonMenuToggle>
+                );
+              })
+            : appPages.map((appPage, index) => {
+                return (
+                  <IonMenuToggle key={index} autoHide={false}>
+                    <IonItem
+                      className={
+                        location.pathname === appPage.url ? 'selected' : ''
+                      }
+                      href={appPage.href}
+                      routerLink={appPage.url}
+                      routerDirection="none"
+                      lines="none"
+                      detail={false}
+                    >
+                      <IonIcon
+                        aria-hidden="true"
+                        slot="start"
+                        ios={appPage.iosIcon}
+                        md={appPage.mdIcon}
+                      />
+                      <IonLabel>{appPage.title}</IonLabel>
+                    </IonItem>
+                  </IonMenuToggle>
+                );
+              })}
         </IonList>
       </IonContent>
     </IonMenu>
   );
 };
-
-export default Menu;

@@ -1,0 +1,16 @@
+{
+  "translation": {
+    "menu": {
+      "adoption": "Adopción",
+      "login": "login"
+    },
+    "petList": {
+      "title": "adopción"
+    },
+    "petForm": {
+      "title": "Registro",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar"
+    }
+  }
+}

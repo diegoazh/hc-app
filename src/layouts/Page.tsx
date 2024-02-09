@@ -1,6 +1,7 @@
 import {
   IonButtons,
   IonContent,
+  IonFooter,
   IonHeader,
   IonMenuButton,
   IonPage,
@@ -10,16 +11,18 @@ import {
   IonToolbar,
   RefresherEventDetail,
 } from '@ionic/react';
-import './Page.css';
+import './Page.scss';
 
 interface PageProps {
   title: string;
-  handleRefresh: (event: CustomEvent<RefresherEventDetail>) => void;
+  footer?: JSX.Element;
+  handleRefresh?: (event: CustomEvent<RefresherEventDetail>) => void;
   children?: React.ReactNode;
 }
 
 export const Page: React.FC<PageProps> = ({
   title,
+  footer,
   handleRefresh,
   children,
 }) => {
@@ -30,11 +33,11 @@ export const Page: React.FC<PageProps> = ({
           <IonButtons slot="start">
             <IonMenuButton color="dark" />
           </IonButtons>
-          <IonTitle>{title}</IonTitle>
+          <IonTitle className="ion-text-center">{title}</IonTitle>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding">
+      <IonContent>
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
@@ -45,6 +48,11 @@ export const Page: React.FC<PageProps> = ({
         </IonHeader>
         {children}
       </IonContent>
+      {footer ? (
+        <IonFooter>
+          <IonToolbar>{footer}</IonToolbar>
+        </IonFooter>
+      ) : undefined}
     </IonPage>
   );
 };

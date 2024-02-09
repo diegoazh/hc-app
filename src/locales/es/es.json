@@ -2,15 +2,121 @@
   "translation": {
     "menu": {
       "adoption": "Adopción",
-      "login": "login"
+      "login": "login",
+      "logout": "logout"
     },
     "petList": {
       "title": "adopción"
     },
+    "createPetStep1": {
+      "title": "Agregar mascota",
+      "emptyState": "Comienza agregando alguna foto de tu mascota...",
+      "cancelBtn": "cancelar",
+      "nextBtn": "siguiente"
+    },
     "petForm": {
-      "title": "Registro",
+      "title": "Formulario de alta",
       "cancel": "Cancelar",
-      "confirm": "Confirmar"
+      "submitBtn": "Registrar",
+      "pageTitle": "Agrega tu mascota",
+      "form": {
+        "images": {
+          "label": "Añade alguna foto..."
+        },
+        "name": {
+          "label": "nombre",
+          "placeholder": "dale un nombre",
+          "errors": {
+            "required": "debes darle un nombre",
+            "minLength": "el nombre no puede tener menos de {{minLength}}",
+            "maxLength": "el nombre no puede tener más de {{maxLength}}"
+          }
+        },
+        "age": {
+          "label": "edad",
+          "placeholder": "selecciona una opción",
+          "options": {
+            "puppy": "cachorro",
+            "adult": "adulto",
+            "elder": "mayor"
+          },
+          "errors": {
+            "required": "debes elegir una opción"
+          }
+        },
+        "type": {
+          "label": "tipo",
+          "placeholder": "selecciona algun tipo",
+          "options": {
+            "dog": "perro",
+            "cat": "gato",
+            "other": "otro"
+          },
+          "errors": {
+            "required": "debes elegir una opción"
+          }
+        },
+        "size": {
+          "label": "tamaño",
+          "placeholder": "selecciona uno de los tamaños",
+          "options": {
+            "small": "chico",
+            "medium": "mediano",
+            "big": "grande"
+          },
+          "errors": {
+            "required": "debes elegir una opción"
+          }
+        },
+        "health": {
+          "label": "salud",
+          "placeholder": "selecciona un estado de salud",
+          "options": {
+            "healthy": "saludable",
+            "unhealthy": "enfermo",
+            "underTreatment": "bajo tratamiento"
+          },
+          "errors": {
+            "required": "debes elegir una opción"
+          }
+        },
+        "description": {
+          "label": "notas",
+          "placeholder": "algo más que desees agregar?",
+          "errors": {
+            "maxLength": "el nombre no puede tener más de {{maxLength}}"
+          }
+        },
+        "country": {
+          "label": "país",
+          "placeholder": "en que pais está?",
+          "errors": {
+            "required": "debes elegir una opción"
+          }
+        },
+        "state": {
+          "label": "provincia",
+          "placeholder": "en que provincia está?",
+          "errors": {
+            "required": "debes elegir una opción"
+          }
+        },
+        "city": {
+          "label": "ciudad",
+          "placeholder": "en que ciudad está?",
+          "errors": {
+            "required": "debes elegir una opción"
+          }
+        },
+        "neighborhood": {
+          "label": "barrio",
+          "placeholder": "en que barrio está? (opcional)",
+          "errors": {
+            "minLength": "el nombre no puede tener menos de {{minLength}}",
+            "maxLength": "el nombre no puede tener más de {{maxLength}}"
+          }
+        }
+      }
     }
   }
 }

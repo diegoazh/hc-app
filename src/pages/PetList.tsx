@@ -6,6 +6,7 @@ import {
   IonGrid,
   IonIcon,
   IonRow,
+  IonText,
   RefresherEventDetail,
 } from '@ionic/react';
 import { Page } from '@layouts';
@@ -14,7 +15,7 @@ import { add } from 'ionicons/icons';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const PetList: React.FC = () => {
+export const PetList: React.FC = () => {
   const [pets, setPets] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
@@ -38,15 +39,16 @@ const PetList: React.FC = () => {
       >
         <IonGrid>
           <IonRow>
-            <IonCol size="12">This is a test {pets}</IonCol>
+            <IonCol size="12">
+              {' '}
+              <IonText>
+                <p>This is a test [{pets}]</p>
+              </IonText>
+            </IonCol>
           </IonRow>
         </IonGrid>
         <IonFab slot="fixed" vertical="bottom" horizontal="end">
-          <IonFabButton
-            onClick={
-              () => setIsOpen(true) // TODO: if user is not logged-in redirect to register
-            }
-          >
+          <IonFabButton routerLink="/create/step-1" routerDirection="forward">
             <IonIcon icon={add}></IonIcon>
           </IonFabButton>
         </IonFab>
@@ -55,5 +57,3 @@ const PetList: React.FC = () => {
     </>
   );
 };
-
-export default PetList;

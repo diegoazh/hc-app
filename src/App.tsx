@@ -24,18 +24,23 @@ import '@ionic/react/css/padding.css';
 import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 
-/* Theme variables */
 import { initStorage } from './hooks';
-import './theme/variables.css';
-import PetList from './pages/PetList';
+import { CreatePetStep1, CreatePetStep2, PetList } from './pages';
 
-import './App.css';
+/* Theme variables */
+import 'animate.css';
+import './theme/variables.css';
+import './theme/tailwind.css';
+
+import './App.scss';
 
 setupIonicReact();
 initStorage();
 
 const routes: { path: string; exact: boolean; component: React.ReactNode }[] = [
   { path: '/adoption', exact: true, component: <PetList /> },
+  { path: '/create/step-1', exact: true, component: <CreatePetStep1 /> },
+  { path: '/create/step-2', exact: true, component: <CreatePetStep2 /> },
 ];
 
 const App: React.FC = () => {

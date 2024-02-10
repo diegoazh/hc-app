@@ -1,44 +1,25 @@
-import { IonButton, useIonRouter } from '@ionic/react';
-import { t } from 'i18next';
-import { DeletePhotoFn, UserPhoto, useAppToast } from '../hooks';
+import { IonButton } from '@ionic/react';
 
 interface CreateStepFooterProps {
-  photos: UserPhoto[];
-  deletePhoto: DeletePhotoFn;
+  backBtn: JSX.Element | string;
+  backFn: () => void;
+  nextBtn: JSX.Element | string;
+  nextFn: () => void;
 }
 
 export const CreateStepFooter: React.FC<CreateStepFooterProps> = ({
-  photos,
-  deletePhoto,
+  backBtn,
+  nextBtn,
+  backFn,
+  nextFn,
 }) => {
-  const ionRouter = useIonRouter();
-  const { presentAppToast } = useAppToast();
-
   return (
     <div className="flex justify-between">
-      <IonButton
-        color="warning"
-        routerDirection="back"
-        className="capitalize"
-        onClick={() => {
-          deletePhoto(photos)
-            .then(() => {
-              ionRouter.push('/adoption', 'back');
-            })
-            .catch((error) => {
-              presentAppToast(error.message, { color: 'danger' });
-              ionRouter.push('/adoption', 'back');
-            });
-        }}
-      >
-        {t('createPetStep1.cancelBtn')}
+      <IonButton color="warning" className="capitalize" onClick={backFn}>
+        {backBtn}
       </IonButton>
-      <IonButton
-        routerLink="/create/step-2"
-        routerDirection="forward"
-        className="capitalize"
-      >
-        {t('createPetStep1.nextBtn')}
+      <IonButton className="capitalize" onClick={nextFn}>
+        {nextBtn}
       </IonButton>
     </div>
   );

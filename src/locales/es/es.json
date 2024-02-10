@@ -9,9 +9,19 @@
       "title": "adopción"
     },
     "createPetStep1": {
-      "title": "Agregar mascota",
+      "title": "Tomale una foto",
       "emptyState": "Comienza agregando alguna foto de tu mascota...",
       "cancelBtn": "cancelar",
+      "backBtn": "volver",
+      "nextBtn": "siguiente",
+      "noPhotoHeader": "Agrega una foto",
+      "noPhotoSubHeader": "Es necesaria para identificarlo",
+      "noPhotoMessage": "No podemos continuar sin al menos una foto. Esta servirá para identificarlo.",
+      "noPhotoBtn": "cerrar"
+    },
+    "createPetStep2": {
+      "title": "Describelo",
+      "backBtn": "volver",
       "nextBtn": "siguiente"
     },
     "petForm": {

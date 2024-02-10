@@ -7,25 +7,56 @@ import {
   IonImg,
   IonRow,
   IonText,
+  useIonAlert,
+  useIonRouter,
 } from '@ionic/react';
-import { cameraOutline, cameraSharp, trash, close } from 'ionicons/icons';
+import { cameraOutline, cameraSharp, close, trash } from 'ionicons/icons';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { UserPhoto, usePhotoGallery } from '../hooks';
+import { CancelBtn, CreateStepFooter, NextBtn } from '../components';
+import { UserPhoto, useAppToast, usePhotoGallery } from '../hooks';
 import { Page } from '../layouts';
 import { capitalize } from '../utils';
-import { CreateStepFooter } from '../components';
-import { useState } from 'react';
 
 export const CreatePetStep1: React.FC = () => {
   const { t } = useTranslation();
   const { photos, takePhoto, deletePhoto } = usePhotoGallery();
   const [photoToDelete, setPhotoToDelete] = useState<UserPhoto>();
+  const ionRouter = useIonRouter();
+  const { presentAppToast } = useAppToast();
+  const [presentAlert] = useIonAlert();
+
+  const Footer = (
+    <CreateStepFooter
+      backBtn={<CancelBtn />}
+      nextBtn={<NextBtn />}
+      backFn={() => {
+        deletePhoto(photos)
+          .then(() => {
+            ionRouter.push('/adoption', 'back');
+          })
+          .catch((error) => {
+            presentAppToast(error.message, { color: 'danger' });
+            ionRouter.push('/adoption', 'back');
+          });
+      }}
+      nextFn={() => {
+        if (photos.length) {
+          ionRouter.push('/create/step-2', 'forward');
+        } else {
+          presentAlert({
+            header: capitalize(t('createPetStep1.noPhotoHeader')),
+            subHeader: capitalize(t('createPetStep1.noPhotoSubHeader')),
+            message: capitalize(t('createPetStep1.noPhotoMessage')),
+            buttons: [capitalize(t('createPetStep1.noPhotoBtn'))],
+          });
+        }
+      }}
+    />
+  );
 
   return (
-    <Page
-      title={capitalize(t('createPetStep1.title'))}
-      footer={<CreateStepFooter photos={photos} deletePhoto={deletePhoto} />}
-    >
+    <Page title={capitalize(t('createPetStep1.title'))} footer={Footer}>
       <IonGrid>
         <IonRow>
           <IonCol size="12">

@@ -1,4 +1,3 @@
-import { PetForm } from '@components';
 import {
   IonCol,
   IonFab,
@@ -17,7 +16,6 @@ import { useTranslation } from 'react-i18next';
 
 export const PetList: React.FC = () => {
   const [pets, setPets] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
   const handleRefresh = useCallback<
     (event: CustomEvent<RefresherEventDetail>) => void
@@ -53,7 +51,6 @@ export const PetList: React.FC = () => {
           </IonFabButton>
         </IonFab>
       </Page>
-      <PetForm isOpen={isOpen} setIsOpen={setIsOpen}></PetForm>
     </>
   );
 };

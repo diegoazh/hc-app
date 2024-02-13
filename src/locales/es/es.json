@@ -3,7 +3,8 @@
     "alert": {
       "headerError": "error",
       "subHeaderError": "algo inesperado ocurrio",
-      "buttonError": "cerrar"
+      "buttonError": "cerrar",
+      "buttonRetry": "reintentar"
     },
     "menu": {
       "adoption": "Adopción",

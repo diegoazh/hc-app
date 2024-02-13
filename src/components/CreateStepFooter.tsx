@@ -22,7 +22,7 @@ export const CreateStepFooter: React.FC<CreateStepFooterProps> = ({
   useEffect(() => {
     const { isDirty, isValid } = formState;
 
-    console.log(isDirty, isValid);
+    console.log(`isDirty: ${isDirty}`, `isValid: ${isValid}`);
 
     if (currentStep === 2) {
       setIsDisabled(!isDirty || !isValid);

@@ -86,10 +86,10 @@ export const CreatePet: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<ICreatePetFormInputs> = (data) =>
-    console.log(data);
+    console.log(data); // TODO: remember to add country:'argentina' to the final object
 
   useEffect(() => {
-    console.log(isSubmitSuccessful);
+    console.log(`isSubmitSuccessful: ${isSubmitSuccessful}`);
 
     if (isSubmitSuccessful && swiper.current) {
       photos.forEach((p) => deletePhoto(p));

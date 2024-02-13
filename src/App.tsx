@@ -6,6 +6,7 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
 import { Menu } from './components';
 
 /* Core CSS required for Ionic components to work properly */
@@ -25,7 +26,7 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 
 import { initStorage } from './hooks';
-import { CreatePet, PetList } from './pages';
+import { CreatePet, GeneralErrorPage, PetList } from './pages';
 
 /* Theme variables */
 import 'animate.css';
@@ -58,7 +59,9 @@ const App: React.FC = () => {
             <Route path="/" exact={true}>
               <Redirect to="/adoption" />
             </Route>
-            {RouteNodes}
+            <ErrorBoundary FallbackComponent={GeneralErrorPage}>
+              {RouteNodes}
+            </ErrorBoundary>
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>

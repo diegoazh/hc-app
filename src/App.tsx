@@ -25,12 +25,12 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 
 import { initStorage } from './hooks';
-import { CreatePetStep1, CreatePetStep2, PetList } from './pages';
+import { CreatePet, PetList } from './pages';
 
 /* Theme variables */
 import 'animate.css';
-import './theme/variables.css';
 import './theme/tailwind.css';
+import './theme/variables.css';
 
 import './App.scss';
 
@@ -39,8 +39,7 @@ initStorage();
 
 const routes: { path: string; exact: boolean; component: React.ReactNode }[] = [
   { path: '/adoption', exact: true, component: <PetList /> },
-  { path: '/create/step-1', exact: true, component: <CreatePetStep1 /> },
-  { path: '/create/step-2', exact: true, component: <CreatePetStep2 /> },
+  { path: '/create', exact: true, component: <CreatePet /> },
 ];
 
 const App: React.FC = () => {

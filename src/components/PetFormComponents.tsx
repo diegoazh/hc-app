@@ -16,7 +16,7 @@ export const CancelBtn = () => {
   return (
     <>
       <IonIcon md={closeSharp} ios={closeOutline}></IonIcon>{' '}
-      {capitalize(t('createPetStep1.cancelBtn'))}
+      {capitalize(t('formButtons.cancelBtn'))}
     </>
   );
 };
@@ -27,7 +27,7 @@ export const BackBtn = () => {
   return (
     <>
       <IonIcon md={chevronBackSharp} ios={chevronBackOutline}></IonIcon>{' '}
-      {capitalize(t('createPetStep1.backBtn'))}
+      {capitalize(t('formButtons.backBtn'))}
     </>
   );
 };
@@ -37,8 +37,14 @@ export const NextBtn = () => {
 
   return (
     <>
-      {capitalize(t('createPetStep1.nextBtn'))}{' '}
+      {capitalize(t('formButtons.nextBtn'))}{' '}
       <IonIcon md={chevronForwardSharp} ios={chevronForwardOutline}></IonIcon>
     </>
   );
+};
+
+export const SubmitBtn = () => {
+  const { t } = useTranslation();
+
+  return <>{capitalize(t('formButtons.submitBtn'))}</>;
 };

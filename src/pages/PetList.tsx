@@ -46,7 +46,7 @@ export const PetList: React.FC = () => {
           </IonRow>
         </IonGrid>
         <IonFab slot="fixed" vertical="bottom" horizontal="end">
-          <IonFabButton routerLink="/create/step-1" routerDirection="forward">
+          <IonFabButton routerLink="/create" routerDirection="forward">
             <IonIcon icon={add}></IonIcon>
           </IonFabButton>
         </IonFab>

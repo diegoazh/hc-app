@@ -1,5 +1,17 @@
 {
   "translation": {
+    "ADULT": "adulto",
+    "ELDER": "mayor",
+    "PUPPY": "cachorro",
+    "DOG": "perro",
+    "CAT": "gato",
+    "OTHER": "otro",
+    "BIG": "grande",
+    "MEDIUM": "mediano",
+    "SMALL": "chico",
+    "HEALTHY": "saludable",
+    "UNHEALTHY": "enfermo",
+    "UNDER_TREATMENT": "en tratamiento",
     "alert": {
       "headerError": "error",
       "subHeaderError": "algo inesperado ocurrio",

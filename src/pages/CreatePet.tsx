@@ -20,7 +20,7 @@ import {
   CreatePetStep3,
   CreateStepFooter,
 } from '../components';
-import { UserPhoto, useAppToast, usePhotoGallery } from '../hooks';
+import { UserPhoto, useAppToast, usePhotoGallery, useStorage } from '../hooks';
 import { Page } from '../layouts';
 import {
   ProductAge,
@@ -52,6 +52,7 @@ export const CreatePet: React.FC = () => {
 
   const ionRouter = useIonRouter();
   const { t } = useTranslation();
+  const store = useStorage();
   const [presentAlert] = useIonAlert();
 
   const { photos, takePhoto, deletePhoto } = usePhotoGallery();
@@ -66,7 +67,6 @@ export const CreatePet: React.FC = () => {
     trigger,
     watch,
     formState: { errors, isDirty, isValid, isSubmitSuccessful },
-    formState: myFormState,
   } = useForm<ICreatePetFormInputs>({
     mode: 'onTouched',
     reValidateMode: 'onChange',
@@ -85,8 +85,16 @@ export const CreatePet: React.FC = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<ICreatePetFormInputs> = (data) =>
+  const onSubmit: SubmitHandler<ICreatePetFormInputs> = (data) => {
     console.log(data); // TODO: remember to add country:'argentina' to the final object
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    store.get('pets').then((pets: any[]) => {
+      const finalPets = pets || [];
+      finalPets.push(data);
+
+      return store.set('pets', finalPets);
+    });
+  };
 
   useEffect(() => {
     console.log(`isSubmitSuccessful: ${isSubmitSuccessful}`);
@@ -102,7 +110,6 @@ export const CreatePet: React.FC = () => {
 
   const Footer = (
     <CreateStepFooter
-      formState={myFormState}
       currentStep={currentStep}
       backFn={() => {
         switch (currentStep) {

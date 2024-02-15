@@ -1,9 +1,17 @@
 import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
   IonCol,
   IonFab,
   IonFabButton,
   IonGrid,
   IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
   IonRow,
   IonText,
   RefresherEventDetail,
@@ -11,23 +19,35 @@ import {
 import { Page } from '@layouts';
 import { capitalize } from '@utils';
 import { add } from 'ionicons/icons';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useStorage } from '../hooks';
 
 export const PetList: React.FC = () => {
-  const [pets, setPets] = useState([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [pets, setPets] = useState<any[]>([]);
   const { t } = useTranslation();
+  const store = useStorage();
+
   const handleRefresh = useCallback<
     (event: CustomEvent<RefresherEventDetail>) => void
   >(
     (event: CustomEvent<RefresherEventDetail>) => {
-      setTimeout(() => {
-        setPets([]);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      store.get('pets').then((pets: any[]) => {
+        setPets(pets);
         event.detail.complete();
-      }, 2000);
+      });
     },
     [setPets],
   );
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    store.get('pets').then((pets: any[]) => {
+      setPets(pets);
+    });
+  });
 
   return (
     <>
@@ -37,12 +57,60 @@ export const PetList: React.FC = () => {
       >
         <IonGrid>
           <IonRow>
-            <IonCol size="12">
-              {' '}
-              <IonText>
-                <p>This is a test [{pets}]</p>
-              </IonText>
-            </IonCol>
+            {pets?.length &&
+              pets.map((pet, index) => (
+                <IonCol size="12" key={index}>
+                  <IonCard>
+                    <img src={pet.images.split('|')[0]} />
+                    <IonCardHeader>
+                      <IonCardTitle>{capitalize(pet.name)}</IonCardTitle>
+                      <IonCardSubtitle>
+                        {capitalize(pet.state)} - {capitalize(pet.city)}
+                      </IonCardSubtitle>
+                    </IonCardHeader>
+
+                    <IonCardContent>
+                      <IonList inset={true}>
+                        <IonItem>
+                          <IonLabel>
+                            {capitalize(t('createPetStep2.age.label'))}
+                          </IonLabel>
+                          <IonText color="medium">
+                            {capitalize(t(pet.age))}
+                          </IonText>
+                        </IonItem>
+                        <IonItem>
+                          <IonLabel>
+                            {capitalize(t('createPetStep2.type.label'))}
+                          </IonLabel>
+                          <IonText color="medium">
+                            {capitalize(t(pet.type))}
+                          </IonText>
+                        </IonItem>
+                        <IonItem>
+                          <IonLabel>
+                            {capitalize(t('createPetStep2.size.label'))}
+                          </IonLabel>
+                          <IonText color="medium">
+                            {capitalize(t(pet.size))}
+                          </IonText>
+                        </IonItem>
+                        <IonItem>
+                          <IonLabel>
+                            {capitalize(t('createPetStep2.health.label'))}
+                          </IonLabel>
+                          <IonText color="medium">
+                            {capitalize(t(pet.health))}
+                          </IonText>
+                        </IonItem>
+                      </IonList>
+                      <IonText>
+                        <p>{pet.description}</p>
+                      </IonText>
+                    </IonCardContent>
+                  </IonCard>
+                </IonCol>
+              ))}
           </IonRow>
         </IonGrid>
         <IonFab slot="fixed" vertical="bottom" horizontal="end">

@@ -124,6 +124,9 @@ export const CreatePetStep3: React.FC<ICreateStep3Props> = ({
       </IonRow>
       <IonRow>
         <IonCol size="12">
+          {
+            // TODO: convert city select in a modal with selectable and searchable list
+          }
           <IonSelect
             label={capitalize(t('createPetStep3.city.label'))}
             labelPlacement="stacked"

@@ -49,7 +49,7 @@ export const CreatePetStep1: React.FC<CreatePetStep1Props> = ({
       'images',
       photos.reduce(
         (prev: string, current) =>
-          prev ? `${prev}|${current.filepath}` : `${current.filepath}`,
+          prev ? `${prev}|${current.webviewPath}` : `${current.webviewPath}`,
         '',
       ),
     );

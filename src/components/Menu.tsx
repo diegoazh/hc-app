@@ -1,3 +1,4 @@
+import { useStorage } from '@hooks';
 import {
   IonContent,
   IonIcon,
@@ -9,7 +10,7 @@ import {
   IonMenuToggle,
   IonNote,
 } from '@ionic/react';
-import { useStorage } from '@hooks';
+import { capitalize } from '@utils';
 import {
   listOutline,
   listSharp,
@@ -18,15 +19,18 @@ import {
   logOutOutline,
   logOutSharp,
 } from 'ionicons/icons';
-import { useState } from 'react';
+import { User } from 'oidc-client-ts';
+import { useEffect, useState } from 'react';
+import { useErrorBoundary } from 'react-error-boundary';
+import { useTranslation } from 'react-i18next';
+import { useAuth } from 'react-oidc-context';
 import { useLocation } from 'react-router-dom';
 import './Menu.scss';
-import { useTranslation } from 'react-i18next';
-import { capitalize } from '@utils';
 
 interface AppPage {
   href?: string;
   url?: string;
+  onClick?: () => void;
   iosIcon: string;
   mdIcon: string;
   title: string;
@@ -34,12 +38,17 @@ interface AppPage {
 }
 
 export const Menu: React.FC = () => {
+  const [loggedUser, setLoggedUser] = useState<User | null | undefined>(null);
+
   const { t } = useTranslation();
   const location = useLocation();
   const store = useStorage();
-  const [user, setUser] = useState<
-    { name: string; email: string } | undefined
-  >();
+  const { signinRedirect, signoutSilent, user } = useAuth();
+  const { showBoundary } = useErrorBoundary();
+
+  useEffect(() => {
+    setLoggedUser(user);
+  }, [loggedUser, user]);
 
   const appPages: AppPage[] = [
     {
@@ -51,32 +60,41 @@ export const Menu: React.FC = () => {
     },
     {
       title: capitalize(t('menu.login')),
-      href: 'https://app.starter.io/auth/login',
+      onClick: () =>
+        signinRedirect().catch((e) => {
+          showBoundary(e);
+        }),
       iosIcon: logInOutline,
       mdIcon: logInSharp,
       secure: false,
     },
     {
       title: capitalize(t('menu.logout')),
-      href: 'https://app.starter.io/auth/login',
+      onClick: () =>
+        signoutSilent().catch((e) => {
+          showBoundary(e);
+        }),
       iosIcon: logOutOutline,
       mdIcon: logOutSharp,
-      secure: false,
+      secure: true,
     },
   ];
 
   store.get('user').then((info) => {
-    setUser(info);
+    setLoggedUser(info);
   });
 
   const pagesResult = appPages
     .map((appPage, index) => {
       return (
         <IonMenuToggle key={index} autoHide={false}>
+          {(appPage.title.toLowerCase() === 'login' ||
+            appPage.title.toLowerCase() === 'logout') && <hr />}
           <IonItem
             className={location.pathname === appPage.url ? 'selected' : ''}
             href={appPage.href}
             routerLink={appPage.url}
+            onClick={appPage.onClick}
             routerDirection="none"
             lines="none"
             detail={false}
@@ -93,19 +111,14 @@ export const Menu: React.FC = () => {
       );
     })
     .filter((item, index) => {
-      if (
-        appPages[index].secure &&
-        user?.email &&
-        appPages[index].title.toLowerCase() !== 'login'
-      ) {
-        return item;
-      }
-
-      if (
-        !appPages[index].secure &&
-        appPages[index].title.toLowerCase() !== 'logout'
-      ) {
-        return item;
+      if (loggedUser?.profile.email) {
+        if (appPages[index].title.toLowerCase() !== 'login') {
+          return item;
+        }
+      } else {
+        if (!appPages[index].secure) {
+          return item;
+        }
       }
     });
 
@@ -113,8 +126,10 @@ export const Menu: React.FC = () => {
     <IonMenu contentId="main" type="overlay">
       <IonContent>
         <IonList id="inbox-list">
-          <IonListHeader>{user?.name || 'Anonymous'}</IonListHeader>
-          <IonNote>{user?.email || ''}</IonNote>
+          <IonListHeader>
+            {loggedUser?.profile.name || 'Anonymous'}
+          </IonListHeader>
+          <IonNote>{loggedUser?.profile.email || ''}</IonNote>
           {pagesResult}
         </IonList>
       </IonContent>

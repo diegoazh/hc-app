@@ -1,4 +1,3 @@
-import { useStorage } from '@hooks';
 import {
   IonContent,
   IonIcon,
@@ -19,8 +18,6 @@ import {
   logOutOutline,
   logOutSharp,
 } from 'ionicons/icons';
-import { User } from 'oidc-client-ts';
-import { useEffect, useState } from 'react';
 import { useErrorBoundary } from 'react-error-boundary';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from 'react-oidc-context';
@@ -38,17 +35,10 @@ interface AppPage {
 }
 
 export const Menu: React.FC = () => {
-  const [loggedUser, setLoggedUser] = useState<User | null | undefined>(null);
-
   const { t } = useTranslation();
   const location = useLocation();
-  const store = useStorage();
   const { signinRedirect, signoutSilent, user } = useAuth();
   const { showBoundary } = useErrorBoundary();
-
-  useEffect(() => {
-    setLoggedUser(user);
-  }, [loggedUser, user]);
 
   const appPages: AppPage[] = [
     {
@@ -80,10 +70,6 @@ export const Menu: React.FC = () => {
     },
   ];
 
-  store.get('user').then((info) => {
-    setLoggedUser(info);
-  });
-
   const pagesResult = appPages
     .map((appPage, index) => {
       return (
@@ -111,7 +97,7 @@ export const Menu: React.FC = () => {
       );
     })
     .filter((item, index) => {
-      if (loggedUser?.profile.email) {
+      if (user?.profile.email) {
         if (appPages[index].title.toLowerCase() !== 'login') {
           return item;
         }
@@ -126,10 +112,8 @@ export const Menu: React.FC = () => {
     <IonMenu contentId="main" type="overlay">
       <IonContent>
         <IonList id="inbox-list">
-          <IonListHeader>
-            {loggedUser?.profile.name || 'Anonymous'}
-          </IonListHeader>
-          <IonNote>{loggedUser?.profile.email || ''}</IonNote>
+          <IonListHeader>{user?.profile.name || 'Anonymous'}</IonListHeader>
+          <IonNote>{user?.profile.email || ''}</IonNote>
           {pagesResult}
         </IonList>
       </IonContent>

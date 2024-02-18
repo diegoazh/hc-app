@@ -1,11 +1,11 @@
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import './i18n-next';
-
 import { ErrorBoundary } from 'react-error-boundary';
 import { AuthProvider, AuthProviderProps } from 'react-oidc-context';
+import './i18n-next';
 // import function to register Swiper custom elements
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { register } from 'swiper/element/bundle';
 
 import { App } from './App';
@@ -25,13 +25,20 @@ const oidcConfig: AuthProviderProps = {
   client_secret: import.meta.env.VITE_OIDC_CLIENT_SECRET,
 };
 
+const client = new ApolloClient({
+  uri: 'https://app.starter.io/graphql',
+  cache: new InMemoryCache(),
+});
+
 const container = document.getElementById('root');
 const root = createRoot(container!);
 root.render(
   <React.StrictMode>
     <AuthProvider {...oidcConfig}>
       <ErrorBoundary FallbackComponent={GeneralErrorPage}>
-        <App />
+        <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
       </ErrorBoundary>
     </AuthProvider>
   </React.StrictMode>,

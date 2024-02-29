@@ -12,8 +12,8 @@
     "format": "prettier --write ./*.{ts,json} ./src/*.{ts,tsx} ./src/**/*.{ts,tsx}",
     "lint": "eslint --fix ./*.ts ./src/*.{ts,tsx} ./src/**/*.{ts,tsx}",
     "lint-staged": "lint-staged",
-    "compile": "rimraf ./src/__generated__ && graphql-codegen",
-    "watch": "rimraf ./src/__generated__ && graphql-codegen -w",
+    "compile": "rimraf ./__generated__ && graphql-codegen --config ./src/codegen.ts",
+    "watch": "rimraf ./__generated__ && graphql-codegen --watch --config ./src/codegen.ts",
     "prepare": "husky install"
   },
   "dependencies": {

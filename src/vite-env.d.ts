@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   VITE_OIDC_CLIENT_ID: '';
   VITE_OIDC_RESPONSE_TYPE: '';
   VITE_OIDC_SCOPE: '';
+  VITE_GRAPHQL_SCHEMA_URL: '';
 }
 
 interface ImportMeta {

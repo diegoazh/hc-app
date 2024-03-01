@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -118,12 +119,54 @@ export type LoggedUserModel = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Create and return a new product */
+  createProduct: ProductEntity;
   /** Create and return a new user */
   createUser: UserModel;
+  /** Overwrite and return the updated product */
+  overwriteProduct: ProductEntity;
+  /** Remove the product if exist or return null otherwise */
+  removeProduct: ProductEntity;
+  /** Update and return the updated product */
+  updateProduct: ProductEntity;
+};
+
+export type MutationCreateProductArgs = {
+  createProductDto: CreateProductDto;
 };
 
 export type MutationCreateUserArgs = {
   createUserDto: CreateUserDto;
+};
+
+export type MutationOverwriteProductArgs = {
+  productId: Scalars['String']['input'];
+  updateProductDto: UpdateProductDto;
+};
+
+export type MutationRemoveProductArgs = {
+  productId: Scalars['String']['input'];
+};
+
+export type MutationUpdateProductArgs = {
+  patchProductDto: PatchProductDto;
+  productId: Scalars['String']['input'];
+};
+
+export type PatchProductDto = {
+  age: ProductAge;
+  available: Scalars['Boolean']['input'];
+  buyer: Scalars['String']['input'];
+  city: Scalars['String']['input'];
+  country: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  health: ProductHealth;
+  images: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  neighborhood: Scalars['String']['input'];
+  size: ProductSize;
+  state: Scalars['String']['input'];
+  type: ProductType;
 };
 
 export type PostEntity = BaseEntity & {
@@ -265,8 +308,6 @@ export type ProfileEntity = BaseEntity & {
 
 export type Query = {
   __typename?: 'Query';
-  /** Create and return a new product */
-  createProduct: ProductEntity;
   /** Returns the product that match with the given id or NULL if nothing matches */
   product: ProductEntity;
   /** Returns a list of products */
@@ -279,10 +320,6 @@ export type Query = {
   users: Array<UserModel>;
   /** Returns the total count of all users by criteria */
   usersCount: Scalars['Int']['output'];
-};
-
-export type QueryCreateProductArgs = {
-  createProductDto: CreateProductDto;
 };
 
 export type QueryProductArgs = {
@@ -312,6 +349,22 @@ export type TagEntity = BaseEntity & {
   updatedAt: Scalars['String']['output'];
 };
 
+export type UpdateProductDto = {
+  age: ProductAge;
+  available: Scalars['Boolean']['input'];
+  buyer: Scalars['String']['input'];
+  city: Scalars['String']['input'];
+  country: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  health: ProductHealth;
+  images: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  neighborhood: Scalars['String']['input'];
+  size: ProductSize;
+  state: Scalars['String']['input'];
+  type: ProductType;
+};
+
 export type UserAccessProp = {
   impersonate: Scalars['Boolean']['output'];
   manage: Scalars['Boolean']['output'];
@@ -336,3 +389,57 @@ export type UserModel = {
   totp: Scalars['Boolean']['output'];
   username: Scalars['String']['output'];
 };
+
+export type AllProductsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type AllProductsQuery = {
+  __typename?: 'Query';
+  products: Array<{
+    __typename?: 'ProductEntity';
+    id: string;
+    name: string;
+    images: string;
+    state: string;
+    city: string;
+    age: ProductAge;
+    type: ProductType;
+    size: ProductSize;
+    health: ProductHealth;
+    description: string;
+  }>;
+};
+
+export const AllProductsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllProducts' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'products' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'state' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'age' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'size' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'health' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AllProductsQuery, AllProductsQueryVariables>;

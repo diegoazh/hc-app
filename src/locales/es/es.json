@@ -12,6 +12,8 @@
     "HEALTHY": "saludable",
     "UNHEALTHY": "enfermo",
     "UNDER_TREATMENT": "en tratamiento",
+    "defaultLoadingStateMessage": "buscando datos",
+    "defaultEmptyStateMessage": "Sin datos...",
     "alert": {
       "headerError": "error",
       "subHeaderError": "algo inesperado ocurrio",
@@ -24,7 +26,9 @@
       "logout": "logout"
     },
     "petList": {
-      "title": "adopción"
+      "title": "adopción",
+      "emptyState": "no encontramos mascotas...",
+      "loadingState": "buscando mascotas"
     },
     "formButtons": {
       "cancelBtn": "cancelar",

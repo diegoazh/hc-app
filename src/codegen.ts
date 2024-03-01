@@ -14,7 +14,7 @@ const config: CodegenConfig = {
     },
   },
   overwrite: true,
-  ignoreNoDocuments: true,
+  ignoreNoDocuments: false,
 };
 
 export default config;

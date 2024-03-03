@@ -19,6 +19,8 @@
     "paths": {
       "@components": ["components/index.ts"],
       "@components/*": ["components/*"],
+      "@graphql-api": ["graphql-api/index.ts"],
+      "@graphql-api/*": ["graphql-api/*"],
       "@hooks": ["hooks/index.ts"],
       "@hooks/*": ["hooks/*"],
       "@layouts": ["layouts/index.ts"],

@@ -24,7 +24,7 @@ import { useCallback } from 'react';
 import { useErrorBoundary } from 'react-error-boundary';
 import { useTranslation } from 'react-i18next';
 import { AllProductsQuery } from '../__generated__/graphql';
-import { PRODUCTS } from '../graphql';
+import { PRODUCTS } from '../graphql-api';
 import { EmptyState, LoadingState } from '../components';
 
 export const PetList: React.FC = () => {

@@ -20,23 +20,44 @@ import {
 import { Page } from '@layouts';
 import { capitalize } from '@utils';
 import { add } from 'ionicons/icons';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useErrorBoundary } from 'react-error-boundary';
 import { useTranslation } from 'react-i18next';
 import { AllProductsQuery } from '../__generated__/graphql';
-import { PRODUCTS } from '../graphql-api';
 import { EmptyState, LoadingState } from '../components';
+import { PRODUCTS } from '../graphql-api';
 
 export const PetList: React.FC = () => {
-  const { loading, data, error } = useQuery<AllProductsQuery>(PRODUCTS);
+  const [petsData, setPetsData] = useState<AllProductsQuery | null>(null);
+  const { loading, error, refetch } = useQuery<AllProductsQuery>(PRODUCTS, {
+    onCompleted: setPetsData,
+  });
   const { showBoundary } = useErrorBoundary();
   const { t } = useTranslation();
 
   const handleRefresh = useCallback<
     (event: CustomEvent<RefresherEventDetail>) => void
-  >((event: CustomEvent<RefresherEventDetail>) => {
-    event.detail.complete();
-  }, []);
+  >(
+    (event: CustomEvent<RefresherEventDetail>) => {
+      refetch()
+        .then(({ data, loading, error }) => {
+          if (error) {
+            throw error;
+          }
+
+          if (!loading) {
+            setPetsData(data);
+          }
+        })
+        .catch((error) => {
+          showBoundary(error);
+        })
+        .finally(() => {
+          event.detail.complete();
+        });
+    },
+    [refetch, setPetsData, showBoundary],
+  );
 
   if (error) {
     showBoundary(error);
@@ -51,10 +72,10 @@ export const PetList: React.FC = () => {
             <IonRow>
               {loading ? (
                 <LoadingState message={t('petList.loadingState')} />
-              ) : !data?.products.length ? (
+              ) : !petsData?.products.length ? (
                 <EmptyState message={t('petList.emptyState')} />
               ) : (
-                data?.products.map((pet, index) => (
+                petsData?.products.map((pet, index) => (
                   <IonCol size="12" key={index}>
                     <IonCard>
                       <img src={pet.images.split('|')[0]} />

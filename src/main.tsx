@@ -28,6 +28,8 @@ const oidcConfig: AuthProviderProps = {
 const client = new ApolloClient({
   uri: 'https://app.starter.io/graphql',
   cache: new InMemoryCache(),
+  // name: 'HocicosCuriosos',
+  // version: '1.0',
 });
 
 const container = document.getElementById('root');

@@ -5,10 +5,17 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { AuthProvider, AuthProviderProps } from 'react-oidc-context';
 import './i18n-next';
 // import function to register Swiper custom elements
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  gql,
+} from '@apollo/client';
 import { register } from 'swiper/element/bundle';
 
+import { createFragmentRegistry } from '@apollo/client/cache';
 import { App } from './App';
+import { CORE_PRODUCT_FRAGMENT } from './graphql-api';
 import { GeneralErrorPage } from './pages';
 
 // register Swiper custom elements
@@ -27,7 +34,11 @@ const oidcConfig: AuthProviderProps = {
 
 const client = new ApolloClient({
   uri: 'https://app.starter.io/graphql',
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    fragments: createFragmentRegistry(gql`
+      ${CORE_PRODUCT_FRAGMENT}
+    `),
+  }),
   // name: 'HocicosCuriosos',
   // version: '1.0',
 });

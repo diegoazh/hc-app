@@ -2,31 +2,18 @@
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T,
-> = { [_ in K]?: never };
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
-    };
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string };
-  String: { input: string; output: string };
-  Boolean: { input: boolean; output: boolean };
-  Int: { input: number; output: number };
-  Float: { input: number; output: number };
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
 };
 
 export type BaseEntity = {
@@ -131,22 +118,27 @@ export type Mutation = {
   updateProduct: ProductEntity;
 };
 
+
 export type MutationCreateProductArgs = {
   createProductDto: CreateProductDto;
 };
 
+
 export type MutationCreateUserArgs = {
   createUserDto: CreateUserDto;
 };
+
 
 export type MutationOverwriteProductArgs = {
   productId: Scalars['String']['input'];
   updateProductDto: UpdateProductDto;
 };
 
+
 export type MutationRemoveProductArgs = {
   productId: Scalars['String']['input'];
 };
+
 
 export type MutationUpdateProductArgs = {
   patchProductDto: PatchProductDto;
@@ -202,13 +194,13 @@ export type PostTagEntity = {
 export enum PostType {
   Gallery = 'GALLERY',
   Page = 'PAGE',
-  Text = 'TEXT',
+  Text = 'TEXT'
 }
 
 export enum ProductAge {
   Adult = 'ADULT',
   Elder = 'ELDER',
-  Puppy = 'PUPPY',
+  Puppy = 'PUPPY'
 }
 
 export type ProductEntity = BaseEntity & {
@@ -256,13 +248,13 @@ export type ProductEntityInput = {
 
 export enum ProductGoal {
   Adoption = 'ADOPTION',
-  TemporaryGuard = 'TEMPORARY_GUARD',
+  TemporaryGuard = 'TEMPORARY_GUARD'
 }
 
 export enum ProductHealth {
   Healthy = 'HEALTHY',
   UnderTreatment = 'UNDER_TREATMENT',
-  Unhealthy = 'UNHEALTHY',
+  Unhealthy = 'UNHEALTHY'
 }
 
 export type ProductQueryInput = {
@@ -275,19 +267,19 @@ export type ProductQueryInput = {
 export enum ProductSize {
   Big = 'BIG',
   Medium = 'MEDIUM',
-  Small = 'SMALL',
+  Small = 'SMALL'
 }
 
 export enum ProductStatus {
   Finished = 'FINISHED',
   InProgress = 'IN_PROGRESS',
-  Pending = 'PENDING',
+  Pending = 'PENDING'
 }
 
 export enum ProductType {
   Cat = 'CAT',
   Dog = 'DOG',
-  Other = 'OTHER',
+  Other = 'OTHER'
 }
 
 export type ProfileEntity = BaseEntity & {
@@ -322,13 +314,16 @@ export type Query = {
   usersCount: Scalars['Int']['output'];
 };
 
+
 export type QueryProductArgs = {
   id: Scalars['String']['input'];
 };
 
+
 export type QueryProductsArgs = {
   query?: InputMaybe<ProductQueryInput>;
 };
+
 
 export type QueryUserArgs = {
   id: Scalars['ID']['input'];
@@ -390,56 +385,12 @@ export type UserModel = {
   username: Scalars['String']['output'];
 };
 
-export type AllProductsQueryVariables = Exact<{ [key: string]: never }>;
+export type CoreProductFragmentFragment = { __typename?: 'ProductEntity', id: string, name: string, images: string, state: string, city: string, age: ProductAge, type: ProductType, size: ProductSize, health: ProductHealth, description: string };
 
-export type AllProductsQuery = {
-  __typename?: 'Query';
-  products: Array<{
-    __typename?: 'ProductEntity';
-    id: string;
-    name: string;
-    images: string;
-    state: string;
-    city: string;
-    age: ProductAge;
-    type: ProductType;
-    size: ProductSize;
-    health: ProductHealth;
-    description: string;
-  }>;
-};
+export type AllProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export const AllProductsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AllProducts' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'products' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'images' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'state' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'age' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'size' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'health' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<AllProductsQuery, AllProductsQueryVariables>;
+
+export type AllProductsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'ProductEntity', id: string, name: string, images: string, state: string, city: string, age: ProductAge, type: ProductType, size: ProductSize, health: ProductHealth, description: string }> };
+
+export const CoreProductFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CoreProductFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ProductEntity"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"images"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"age"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"health"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]} as unknown as DocumentNode<CoreProductFragmentFragment, unknown>;
+export const AllProductsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"AllProducts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"products"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"CoreProductFragment"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"CoreProductFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"ProductEntity"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"images"}},{"kind":"Field","name":{"kind":"Name","value":"state"}},{"kind":"Field","name":{"kind":"Name","value":"city"}},{"kind":"Field","name":{"kind":"Name","value":"age"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"size"}},{"kind":"Field","name":{"kind":"Name","value":"health"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]} as unknown as DocumentNode<AllProductsQuery, AllProductsQueryVariables>;
